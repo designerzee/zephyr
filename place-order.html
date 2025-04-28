@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Place Your Order</title>
+  <link rel="stylesheet" href="st.css">
+</head>
+<body>
+  <main>
+    <h2>Place Your Order</h2>
+
+    <form id="orderForm" novalidate>
+
+      <!-- 🌿 Plant 1 Selection -->
+      <div class="form-group" id="plant1">
+        <label for="productSelect1">Select Plant 1:</label>
+        <select class="productSelect" id="productSelect1" name="product1" required>
+          <option value="" disabled selected>Select a Plant</option>
+          <option value="1" data-price="1700">1 - PKR 1700</option>
+          <option value="2" data-price="2200">2 - PKR 2200</option>
+          <option value="3" data-price="2000">3 - PKR 2000</option>
+          <option value="4" data-price="2500">4 - PKR 2500</option>
+          <option value="5" data-price="2500">5 - PKR 2500</option>
+          <option value="6" data-price="2500">6 - PKR 2500</option>
+        </select>
+        <label for="quantity1">Quantity:</label>
+        <input type="number" id="quantity1" name="quantity1" value="1" min="1" required>
+        <div class="price">
+          <label>Price per item: PKR <span id="unitPrice1">1700</span></label>
+        </div>
+        <div class="total">
+          <label>Total Price: PKR <span id="totalPrice1">1700</span></label>
+        </div>
+      </div>
+
+      <!-- 🌿 Plant 2 Selection -->
+      <div class="form-group" id="plant2">
+        <label for="productSelect2">Select Plant 2:</label>
+        <select class="productSelect" id="productSelect2" name="product2">
+          <option value="" disabled selected>Select a Plant</option>
+          <option value="1" data-price="1700">1 - PKR 1700</option>
+          <option value="2" data-price="2200">2 - PKR 2200</option>
+          <option value="3" data-price="2000">3 - PKR 2000</option>
+          <option value="4" data-price="2500">4 - PKR 2500</option>
+          <option value="5" data-price="2500">5 - PKR 2500</option>
+          <option value="6" data-price="2500">6 - PKR 2500</option>
+        </select>
+        <label for="quantity2">Quantity:</label>
+        <input type="number" id="quantity2" name="quantity2" value="1" min="1">
+        <div class="price">
+          <label>Price per item: PKR <span id="unitPrice2">1700</span></label>
+        </div>
+        <div class="total">
+          <label>Total Price: PKR <span id="totalPrice2">1700</span></label>
+        </div>
+      </div>
+
+      <!-- 🧮 Grand Total -->
+      <div class="form-group">
+        <p><strong>Grand Total: PKR <span id="grandTotal">3400</span></strong></p>
+      </div>
+
+      <!-- 👤 User Information -->
+      <div class="form-group">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Your Email:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="address">Address:</label>
+        <textarea id="address" name="address" rows="3" required></textarea>
+      </div>
+
+      <!-- 💳 Payment Method -->
+      <div class="form-group">
+        <label for="paymentMethod">Payment Method:</label>
+        <select id="paymentMethod" name="paymentMethod" required>
+          <option value="" disabled selected>Select Payment Method</option>
+          <option value="bankTransfer">Bank Transfer</option>
+          <option value="cod">Cash on Delivery (COD)</option>
+        </select>
+      </div>
+
+      <!-- 💳 Credit Card Info (Hidden by default) -->
+      <div id="creditCardInfo" style="display: none;">
+        <h3>Credit Card Information</h3>
+        <div class="form-group">
+          <label for="cardName">Cardholder Name:</label>
+          <input type="text" id="cardName" name="cardName" required>
+        </div>
+
+        <div class="form-group">
+          <label for="cardNumber">Card Number:</label>
+          <input type="text" id="cardNumber" name="cardNumber" required pattern="\d{16}" title="16 digit card number">
+        </div>
+
+        <div class="form-group">
+          <label for="expiryDate">Expiry Date (MM/YY):</label>
+          <input type="text" id="expiryDate" name="expiryDate" required placeholder="MM/YY">
+        </div>
+
+        <div class="form-group">
+          <label for="cvc">CVC:</label>
+          <input type="text" id="cvc" name="cvc" required pattern="\d{3}" title="3 digit CVC">
+        </div>
+      </div>
+
+      <!-- 📩 Submit Button -->
+      <button type="submit" class="submit-button">Place Order</button>
+    </form>
+
+    <!-- ⬅️ Back Button -->
+    <button onclick="history.back()" class="back-button">⬅ Back</button>
+  </main>
+
+  <!-- 🚀 JavaScript -->
+  <script>
+    // Initialize prices for each plant
+    let unitPrice1 = 1700, unitPrice2 = 1700;
+    const grandTotalElem = document.getElementById('grandTotal');
+    
+    // Elements for plant 1
+    const productSelect1 = document.getElementById('productSelect1');
+    const unitPriceInput1 = document.getElementById('unitPrice1');
+    const quantityInput1 = document.getElementById('quantity1');
+    const totalPrice1Elem = document.getElementById('totalPrice1');
+
+    // Elements for plant 2
+    const productSelect2 = document.getElementById('productSelect2');
+    const unitPriceInput2 = document.getElementById('unitPrice2');
+    const quantityInput2 = document.getElementById('quantity2');
+    const totalPrice2Elem = document.getElementById('totalPrice2');
+
+    // Update the total price for both plants
+    function updateTotalPrice() {
+      const quantity1 = parseInt(quantityInput1.value) || 1;
+      const totalPrice1 = unitPrice1 * quantity1;
+      totalPrice1Elem.textContent = totalPrice1;
+      
+      const quantity2 = parseInt(quantityInput2.value) || 1;
+      const totalPrice2 = unitPrice2 * quantity2;
+      totalPrice2Elem.textContent = totalPrice2;
+
+      // Update grand total
+      const grandTotal = totalPrice1 + totalPrice2;
+      grandTotalElem.textContent = grandTotal;
+    }
+
+    // Event listener for plant 1
+    productSelect1.addEventListener('change', () => {
+      const selectedOption1 = productSelect1.options[productSelect1.selectedIndex];
+      unitPrice1 = parseFloat(selectedOption1.dataset.price) || 1700;
+      unitPriceInput1.textContent = unitPrice1;
+      updateTotalPrice();
+    });
+    
+    quantityInput1.addEventListener('input', updateTotalPrice);
+
+    // Event listener for plant 2 (optional)
+    productSelect2.addEventListener('change', () => {
+      const selectedOption2 = productSelect2.options[productSelect2.selectedIndex];
+      unitPrice2 = parseFloat(selectedOption2.dataset.price) || 1700;
+      unitPriceInput2.textContent = unitPrice2;
+      updateTotalPrice();
+    });
+    
+    quantityInput2.addEventListener('input', updateTotalPrice);
+
+    // Event listener for payment method selection
+    const paymentMethodSelect = document.getElementById('paymentMethod');
+    const creditCardInfo = document.getElementById('creditCardInfo');
+
+    paymentMethodSelect.addEventListener('change', () => {
+      const selectedPaymentMethod = paymentMethodSelect.value;
+
+      // Show credit card info if "Bank Transfer" is selected
+      if (selectedPaymentMethod === 'bankTransfer') {
+        creditCardInfo.style.display = 'block'; // Show credit card fields
+      } else {
+        creditCardInfo.style.display = 'none'; // Hide credit card fields
+      }
+    });
+
+    // Form submit handling
+    const orderForm = document.getElementById('orderForm');
+
+    orderForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (!orderForm.checkValidity()) {
+        alert('Please fill out all fields correctly.');
+        return;
+      }
+
+      const formData = new FormData(orderForm);
+      const orderData = Object.fromEntries(formData.entries());
+
+      // Add total prices for each plant
+      orderData.totalPrice1 = unitPrice1 * (parseInt(quantityInput1.value) || 1);
+      orderData.totalPrice2 = unitPrice2 * (parseInt(quantityInput2.value) || 1);
+      orderData.grandTotal = parseFloat(grandTotalElem.textContent);
+
+      try {
+        const response = await fetch('/send-order', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(orderData)
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          window.location.href = 'thank-you.html';
+        } else {
+          alert('Failed to place order. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Network error. Please try again later.');
+      }
+    });
+  </script>
+</body>
+</html>
